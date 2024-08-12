@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+      <h1>To-Do List</h1>
+      <div class="input">
+        <form id="taskForm" class="task-form">
+          <label for="task"></label>
+          <input type="text" id="task" name="task" required>
+          <button type="submit" class="save-button">Save</button>
+        </form>
+      </div>
+      <div id="task-list">
+        <!-- Task list will be rendered here -->
+      </div>
+
+    <script>
+      async function fetchTasks() {
+        try {
+          const response = await fetch('/tasks');
+          const tasks = await response.json();
+          console.log(tasks);
+          const taskListDiv = document.getElementById('task-list');
+          taskListDiv.innerHTML = '';
+
+          tasks.forEach(task => {
+            const taskItem = document.createElement('div');
+            taskItem.textContent = task.task;
+            taskItem.className = "task-item" + (task.status ? "-completed": "");
+            taskListDiv.appendChild(taskItem);
+            
+            //DELETE
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = 'Delete';
+            deleteButton.className = 'delete-button'
+            deleteButton.addEventListener('click', async () => {
+              try {
+                const response = await fetch('/delete', {
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ _id: task._id })
+                })
+                if (response.ok) {
+                  console.log(`Task ${task._id} deleted successfully`);
+                  fetchTasks();
+                } else {
+                console.error('Error deleting task');
+                }
+              } catch (error) {
+                console.error('Error:', error);
+              }
+            });
+
+            //FINISH
+            const finishButton = document.createElement('button');
+            finishButton.innerText = 'Finish';
+            finishButton.className = 'finish-button';
+            finishButton.addEventListener('click', async() => {
+              try {
+                const response = await fetch('/finish', {
+                method: 'PATCH',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ _id: task._id, task: task.task })
+                })
+                if (response.ok) {
+                  console.log(`Task ${task._id} marked as completed successfully`);
+                  finishButton.remove()
+                  fetchTasks();
+                } else {
+                console.error('Error marking task as complete');
+                }
+              } catch (error) {
+                console.error('Error:', error);
+              }
+            });
+
+            //EDIT
+            const editButton = document.createElement('button');
+            editButton.innerText = 'Edit';
+            editButton.className = 'edit-button';
+            editButton.addEventListener('click', () => {
+            const editContainer = document.createElement('div');
+            const textBox = document.createElement('input');
+            textBox.type = 'text';
+            textBox.value = task.task;
+            const submitButton = document.createElement('button');
+            submitButton.innerText = 'Submit';
+            submitButton.className = 'submit-button';
+            editButton.remove()
+        
+            submitButton.addEventListener('click', async () => {
+            try {
+              const response = await fetch('/modify', {
+                method: 'PATCH',
+                headers: {
+                 'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ _id: task._id, task: textBox.value })
+              });
+              if (response.ok) {
+                console.log(`Task ${task._id} edited successfully`);
+                fetchTasks(); 
+                editContainer.remove(); 
+              } else {
+                console.error('Error editing task');
+              }
+              } catch (error) {
+                console.error('Error:', error);
+              }
+            });
+          editContainer.appendChild(textBox);
+          editContainer.appendChild(submitButton);
+          taskItem.appendChild(editContainer);
+        });
+
+        taskItem.appendChild(deleteButton);
+        if (!task.status) taskItem.appendChild(finishButton);
+        taskItem.appendChild(editButton);
+        console.log(task.status)
+      });
+        } catch (error) {
+          console.error('Error fetching tasks:', error);
+        }
+    }
+    // Fetch tasks when the page loads
+    window.onload = fetchTasks();
+    </script>
+    <script>
+      document.getElementById('taskForm').addEventListener('submit', async function(event) {
+        event.preventDefault(); 
+
+        const taskInput = document.getElementById('task');
+        const task = taskInput.value;
+        try {
+          const response = await fetch('/add', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ task })
+          });
+          if (response.ok) {
+            console.log("ToDo Item " + task + " successfully saved to server");
+            taskInput.value = '';
+            fetchTasks()
+  
+          } else {
+            console.error('Error saving data');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,144 @@
+h1{
+    text-align: center;
+}
+
+.finish-button {
+    background-color: green; 
+    color: white;         
+    padding: 15px 32px;    
+    text-align: center;      
+    text-decoration: none;    
+    display: inline-block;    
+    font-size: 16px;         
+    margin: 4px 2px;           
+    cursor: pointer;           
+    border: none;              
+    border-radius: 8px;        
+}
+.finish-button:hover{
+    background-color: #015f01;
+}
+
+.delete-button{
+    background-color: red; 
+    color: white;         
+    padding: 15px 32px;    
+    text-align: center;      
+    text-decoration: none;    
+    display: inline-block;    
+    font-size: 16px;         
+    margin: 4px 2px;           
+    cursor: pointer;           
+    border: none;              
+    border-radius: 8px;     
+}
+.delete-button:hover{
+    background-color: #bb0606;
+}
+
+.edit-button{
+    background-color: blue; 
+    color: white;         
+    padding: 15px 32px;    
+    text-align: center;      
+    text-decoration: none;    
+    display: inline-block;    
+    font-size: 16px;         
+    margin: 4px 2px;           
+    cursor: pointer;           
+    border: none;              
+    border-radius: 8px;
+
+    
+}
+.edit-button:hover{
+    background-color: #0606b6;  
+}
+
+.submit-button{
+    background-color: blue; 
+    color: white;         
+    padding: 15px 32px;    
+    text-align: center;      
+    text-decoration: none;    
+    display: inline-block;    
+    font-size: 16px;         
+    margin: 4px 2px;           
+    cursor: pointer;           
+    border: none;              
+    border-radius: 8px;    
+}
+
+.submit-button:hover{
+    background-color: #0606b6; 
+}
+
+.save-button{
+    background-color: blue; 
+    color: white;         
+    padding: 15px 32px;    
+    text-align: center;      
+    text-decoration: none;    
+    display: inline-block;    
+    font-size: 16px;         
+    margin: 4px 2px;           
+    cursor: pointer;           
+    border: none;              
+    border-radius: 8px;   
+     
+}
+.save-button:hover {
+    background-color: #0606b6;
+}
+
+.task-form {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+.input {
+    display: flex;
+    justify-content: center;
+}
+
+#task {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    
+}
+
+.task-item {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #f9f9f9; 
+    border: 1px solid #ccc;
+    border-radius: 4px;       
+    font-size: 16px;          
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+
+.task-item-completed {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #f9f9f9; 
+    border: 1px solid #ccc;
+    border-radius: 4px;       
+    font-size: 16px;          
+    display: flex;
+    justify-content: right; 
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    background-color: #c3e6cb;
+}
